@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public class Generators {
     public static void main(String[] args) {
-
+        generate();
     }
     private static void generate(){
         FastAutoGenerator.create("jdbc:mysql://localhost:3306/mybatis", "root", "123456")
@@ -32,10 +32,11 @@ public class Generators {
                 .packageConfig(builder -> {
                     builder.parent("com.example.demo") // 设置父包名
                             .moduleName("") // 设置父包模块名
+                            .entity("bean")
                             .pathInfo(Collections.singletonMap(OutputFile.xml, "C:\\Users\\Zqunnnnnn\\Desktop\\study\\java\\demo\\src\\main\\resources\\mapper\\")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("sys_student") // 设置需要生成的表名
+                    builder.addInclude("customer") // 设置需要生成的表名
                             .addTablePrefix("t_", "sys_"); // 设置过滤表前缀
                 })
 //                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
