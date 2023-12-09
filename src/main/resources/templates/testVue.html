@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script></head>
+<body>
+    <div id="app">
+    <h1>{{ message }}</h1>
+       <input type="text" :placeholder="input">
+        <a :href="baidu">百度</a>
+        <img :src="imgSrc" :width="width" alt="error">
+    </div>
+    <script>
+        const { createApp, ref } = Vue
+
+        createApp({
+            setup() {
+                const message = ref('Hello vue!')
+                return {
+                    message:'Hello vue',
+                    baidu:"http://www.baidu.com",
+                    input:'input ,plz',
+                    imgSrc:'./static/girl.jpg',
+                    width:'500px'
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DeptMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo.bean.Dept">
+            <id property="deptId" column="dept_id" jdbcType="INTEGER"/>
+            <result property="deptName" column="dept_name" jdbcType="VARCHAR"/>
+            <result property="deptRemark" column="dept_remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        dept_id,dept_name,dept_remark
+    </sql>
+    <select id="getDeptAllEmps" resultMap="map1">
+        SELECT d.dept_id,dept_name,emp_id,emp_name from dept d,emp e where d.dept_id=e.dept_id
+    </select>
+    <resultMap id="map1" type="com.example.demo.bean.Dept">
+        <id column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <collection property="emps" ofType="com.example.demo.bean.Emp">
+            <id column="emp_id" property="empId"/>
+            <result column="emp_name" property="empName"/>
+        </collection>
+    </resultMap>
+    <select id="getDeptAllEmpsById" resultMap="map1" parameterType="Integer">
+                SELECT d.dept_id,dept_name,emp_id,emp_name from dept d,emp e where d.dept_id=e.dept_id and d.dept_id=#{deptId}
+    </select>
+
+</mapper>
