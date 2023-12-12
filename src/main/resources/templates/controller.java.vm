@@ -69,6 +69,10 @@ public class ${table.controllerName} {
         @RequestParam Integer pageSize) {
                 return ${table.entityPath}Service.page(new Page<>(pageNum, pageSize));
                 }
+        @PostMapping("/deletes")
+        public boolean deleteEmps(@RequestBody List<Integer> Ids){
+                return ${table.entityPath}Service.removeByIds(Ids);
+                }
 
 
 }
