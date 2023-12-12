@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.ToString;
 
 /**
  *
@@ -14,7 +13,6 @@ import lombok.ToString;
  */
 @TableName(value ="emp")
 @Data
-@ToString
 public class Emp implements Serializable {
     /**
      *
