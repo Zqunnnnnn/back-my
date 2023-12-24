@@ -4,8 +4,17 @@ spring:
     password: 123456
     username: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 10485760 # 设置为你希望的值，这里是10MB
+      max-request-size: 10485760 # 设置为你希望的值，这里是10MB
 server:
   port: 8088
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+files:
+  uploads:
+    path: C:/Users/Zqunnnnnn/Desktop/vue/files/
+

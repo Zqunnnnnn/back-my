@@ -1,14 +1,18 @@
 package com.example.demo.controller;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.Emp;
+import com.example.demo.controller.dto.EmpDto;
 import com.example.demo.mapper.EmpMapper;
 import com.example.demo.service.impl.EmpServiceImpl;
+import com.example.demo.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/emp")
@@ -30,27 +35,41 @@ public class EmpController {
     private EmpServiceImpl empService;
 
     @PostMapping("/deletes")
-    public boolean deleteEmps(@RequestBody List<Integer> empIds){
-        return empService.removeByIds(empIds);
+    public Result deleteEmps(@RequestBody List<Integer> empIds){
+        return Result.success(empService.removeByIds(empIds));
     }
     @PostMapping("/updateOrAddEmp")
-    public boolean updateOrAddEmp(@RequestBody Emp emp){
+    public Result updateOrAddEmp(@RequestBody Emp emp){
+        QueryWrapper<Emp> wrapper = new QueryWrapper<>();
+        wrapper.eq("emp_name", emp.getEmpName())
+                .ne("emp_id", emp.getEmpId());
+        Emp one = empService.getOne(wrapper);
         if(emp.getDeptId()==null||emp.getEmpAge()==null||emp.getEmpSex()==null||emp.getEmpName()==null){
-            return false;
+            return Result.error("lack message");
+        } else if (emp.getPsw()==null) {
+            emp.setPsw("123456");
+        } else if (one!=null){//empName不能重复
+            return Result.error("empName重复");
         }
-        return empService.saveOrUpdate(emp);
+        return Result.success(empService.saveOrUpdate(emp));
     }
     @GetMapping("/findAll")
-    public List<Emp> findAllEmp(){
-       return empMapper.selectList(null);
+    public Result findAllEmp(){
+       return Result.success(empMapper.selectList(null));
     }
     @GetMapping("/find/{id}")
-    public Emp findById(@PathVariable("id") Integer empId){
-        return empMapper.selectById(empId);
+    public Result findById(@PathVariable("id") Integer empId){
+        return Result.success(empMapper.selectById(empId));
+    }
+    @GetMapping("/find/empName/{empName}")
+    public Result findByName(@PathVariable String empName){//根据empName查Emp
+        QueryWrapper<Emp> wrapper = new QueryWrapper<>();
+        wrapper.eq("emp_name",empName);
+        return Result.success(empService.getOne(wrapper));
     }
     @DeleteMapping("/deleteEmp/{id}")
-    public boolean deleteEmp(@PathVariable("id") Integer empId){
-        return empService.removeById(empId);
+    public Result deleteEmp(@PathVariable("id") Integer empId){
+        return Result.success(empService.removeById(empId));
     }
 
 //    @GetMapping("/Page")
@@ -72,7 +91,7 @@ public class EmpController {
 //        return map;
 //    }
     @GetMapping("/page")
-    public IPage<Emp> getPage(@RequestParam Integer pageNum,
+    public Result getPage(@RequestParam Integer pageNum,
                               @RequestParam Integer pageSize,
                               @RequestParam(required = false) String empName,
                               @RequestParam(required = false) Integer empAge,
@@ -98,11 +117,11 @@ public class EmpController {
                     .like("emp_sex",sexString);
         }
 
-        return empService.page(page,queryWrapper);
+        return Result.success(empService.page(page,queryWrapper));
     }
 
     @GetMapping("/export")
-    public void exportData(HttpServletResponse response) throws IOException {
+    public Result exportData(HttpServletResponse response) throws IOException {
         //获取所有信息
         List<Emp> list = empService.list();
         ExcelWriter writer = ExcelUtil.getWriter("C:\\Users\\Zqunnnnnn\\Desktop\\study\\java\\demo\\src\\main\\resources\\templates\\export"+"/用户信息.xlsx");
@@ -117,20 +136,38 @@ public class EmpController {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         String fileName = URLEncoder.encode("用户信息","UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=" + fileName +".xlsx");
-
         ServletOutputStream out = response.getOutputStream();
         writer.flush(out, true);
         out.close();
         writer.close();
+        return Result.success("true");
     }
     @PostMapping("/import")
-    public void importData(MultipartFile file) throws IOException {
+    public Result importData(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         ExcelReader reader = ExcelUtil.getReader(inputStream);
-        List<Emp> emps = reader.readAll(Emp.class);
+        List<Emp> emps = reader.read(0,1,Emp.class);
         empService.saveBatch(emps);
+        return Result.success("true");
     }
 
+    @PostMapping("/login")
+    public Result login(@RequestBody EmpDto empDto){
+        String empName = empDto.getEmpName();
+        String password = empDto.getPassword();
+        if(StrUtil.isBlank(empName)||StrUtil.isBlank(password)){
+            return Result.error("用户名或密码为空");
+        }
+        return Result.success(empService.login(empDto));
+    }
 
-
+    @PostMapping("/register")
+    public Result register(@RequestBody EmpDto empDto){
+        String empName = empDto.getEmpName();
+        String password = empDto.getPassword();
+        if(StrUtil.isBlank(empName)||StrUtil.isBlank(password)){
+            return Result.error("用户名或密码为空");
+        }
+        return Result.success(empService.register(empDto));
+    }
 }

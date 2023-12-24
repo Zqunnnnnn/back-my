@@ -17,7 +17,7 @@ public class Emp implements Serializable {
     /**
      *
      */
-    @TableId(type = IdType.AUTO,value = "emp_id")
+    @TableId(type = IdType.AUTO)
     private Integer empId;
 
     /**
@@ -40,6 +40,13 @@ public class Emp implements Serializable {
      */
     private Integer deptId;
 
+    /**
+     *
+     */
+    private String psw;
+
+    private String avatarUrl;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +66,9 @@ public class Emp implements Serializable {
             && (this.getEmpName() == null ? other.getEmpName() == null : this.getEmpName().equals(other.getEmpName()))
             && (this.getEmpSex() == null ? other.getEmpSex() == null : this.getEmpSex().equals(other.getEmpSex()))
             && (this.getEmpAge() == null ? other.getEmpAge() == null : this.getEmpAge().equals(other.getEmpAge()))
-            && (this.getDeptId() == null ? other.getDeptId() == null : this.getDeptId().equals(other.getDeptId()));
+            && (this.getDeptId() == null ? other.getDeptId() == null : this.getDeptId().equals(other.getDeptId()))
+            && (this.getPsw() == null ? other.getPsw() == null : this.getPsw().equals(other.getPsw()))
+                &&(this.getAvatarUrl() == null ? other.getAvatarUrl() == null : this.getAvatarUrl().equals(other.getAvatarUrl()));
     }
 
     @Override
@@ -71,6 +80,7 @@ public class Emp implements Serializable {
         result = prime * result + ((getEmpSex() == null) ? 0 : getEmpSex().hashCode());
         result = prime * result + ((getEmpAge() == null) ? 0 : getEmpAge().hashCode());
         result = prime * result + ((getDeptId() == null) ? 0 : getDeptId().hashCode());
+        result = prime * result + ((getPsw() == null) ? 0 : getPsw().hashCode());
         return result;
     }
 
@@ -85,6 +95,8 @@ public class Emp implements Serializable {
         sb.append(", empSex=").append(empSex);
         sb.append(", empAge=").append(empAge);
         sb.append(", deptId=").append(deptId);
+        sb.append(", psw=").append(psw);
+        sb.append(",avatarUrl=").append(avatarUrl);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

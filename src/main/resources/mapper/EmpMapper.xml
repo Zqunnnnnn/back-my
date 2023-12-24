@@ -10,10 +10,11 @@
             <result property="empSex" column="emp_sex" jdbcType="VARCHAR"/>
             <result property="empAge" column="emp_age" jdbcType="INTEGER"/>
             <result property="deptId" column="dept_id" jdbcType="INTEGER"/>
+            <result property="psw" column="psw" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         emp_id,emp_name,emp_sex,
-        emp_age,dept_id
+        emp_age,dept_id,psw
     </sql>
 </mapper>
