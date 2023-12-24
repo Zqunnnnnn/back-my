@@ -16,5 +16,6 @@ public class EmpDto {
     private String password;//密码
     private String empSex;
     private String token;
+    private String avatarUrl;
 
 }

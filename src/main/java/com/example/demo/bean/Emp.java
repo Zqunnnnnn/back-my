@@ -43,7 +43,8 @@ public class Emp implements Serializable {
     /**
      *
      */
-    private String psw;
+    @TableField("psw")
+    private String password;
 
     private String avatarUrl;
 
@@ -67,7 +68,7 @@ public class Emp implements Serializable {
             && (this.getEmpSex() == null ? other.getEmpSex() == null : this.getEmpSex().equals(other.getEmpSex()))
             && (this.getEmpAge() == null ? other.getEmpAge() == null : this.getEmpAge().equals(other.getEmpAge()))
             && (this.getDeptId() == null ? other.getDeptId() == null : this.getDeptId().equals(other.getDeptId()))
-            && (this.getPsw() == null ? other.getPsw() == null : this.getPsw().equals(other.getPsw()))
+            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
                 &&(this.getAvatarUrl() == null ? other.getAvatarUrl() == null : this.getAvatarUrl().equals(other.getAvatarUrl()));
     }
 
@@ -80,7 +81,7 @@ public class Emp implements Serializable {
         result = prime * result + ((getEmpSex() == null) ? 0 : getEmpSex().hashCode());
         result = prime * result + ((getEmpAge() == null) ? 0 : getEmpAge().hashCode());
         result = prime * result + ((getDeptId() == null) ? 0 : getDeptId().hashCode());
-        result = prime * result + ((getPsw() == null) ? 0 : getPsw().hashCode());
+        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         return result;
     }
 
@@ -95,7 +96,7 @@ public class Emp implements Serializable {
         sb.append(", empSex=").append(empSex);
         sb.append(", empAge=").append(empAge);
         sb.append(", deptId=").append(deptId);
-        sb.append(", psw=").append(psw);
+        sb.append(", psw=").append(password);
         sb.append(",avatarUrl=").append(avatarUrl);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

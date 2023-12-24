@@ -39,7 +39,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw new LoginException("400","未有该用户");
         }
         // 验证 token
-        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(emp.getPsw())).build();
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(emp.getPassword())).build();
         try {
             jwtVerifier.verify(token);//验证token
         } catch (JWTVerificationException e) {

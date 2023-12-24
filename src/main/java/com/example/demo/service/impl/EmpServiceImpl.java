@@ -8,6 +8,8 @@ import com.example.demo.controller.dto.EmpDto;
 import com.example.demo.exception.LoginException;
 import com.example.demo.service.EmpService;
 import com.example.demo.mapper.EmpMapper;
+import com.example.demo.utils.TokenUtils;
+import org.apache.el.parser.Token;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +26,8 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
         Emp one = getEmp(empDto);
         if(one != null){
             BeanUtil.copyProperties(one,empDto,true);
+            String token = TokenUtils.generateToken(one.getEmpId(), one.getPassword());
+            empDto.setToken(token);
             return empDto;
         }
         else {

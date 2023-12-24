@@ -46,8 +46,8 @@ public class EmpController {
         Emp one = empService.getOne(wrapper);
         if(emp.getDeptId()==null||emp.getEmpAge()==null||emp.getEmpSex()==null||emp.getEmpName()==null){
             return Result.error("lack message");
-        } else if (emp.getPsw()==null) {
-            emp.setPsw("123456");
+        } else if (emp.getPassword()==null) {
+            emp.setPassword("123456");
         } else if (one!=null){//empName不能重复
             return Result.error("empName重复");
         }
