@@ -10,7 +10,6 @@
             <result property="empSex" column="emp_sex" jdbcType="VARCHAR"/>
             <result property="empAge" column="emp_age" jdbcType="INTEGER"/>
             <result property="deptId" column="dept_id" jdbcType="INTEGER"/>
-            <result property="psw" column="psw" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
-
+import com.example.demo.utils.Result;
 import $!{package.Service}.$!{table.serviceName};
 import ${package.Entity}.${entity};
 
@@ -31,6 +31,8 @@ import ${superControllerClassPackage};
 #else
 @Controller
 #end
+@CrossOrigin
+#end
 @RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 #if(${kotlin})
 class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
@@ -45,33 +47,37 @@ public class ${table.controllerName} {
         private ${table.serviceName} ${table.entityPath}Service;
 
         @PostMapping
-        public Boolean save(@RequestBody ${entity} ${table.entityPath}) {
-                return ${table.entityPath}Service.saveOrUpdate(${table.entityPath});
-                }
+        public Result save(@RequestBody ${entity} ${table.entityPath}) {
+                ${table.entityPath}Service.saveOrUpdate(${table.entityPath});
+                return Result.success();
+        }
 
         @DeleteMapping("/{id}")
-        public Boolean delete(@PathVariable Integer id) {
-                return ${table.entityPath}Service.removeById(id);
+        public Result delete(@PathVariable Integer id) {
+                ${table.entityPath}Service.removeById(id);
+                return Result.success();
              }
 
         @GetMapping
-        public List<${entity}> findAll() {
-                return ${table.entityPath}Service.list();
+        public Result findAll() {
+                return Result.success(${table.entityPath}Service.list());
                 }
 
         @GetMapping("/{id}")
-        public List<${entity}> findOne(@PathVariable Integer id) {
-                return ${table.entityPath}Service.list();
+        public Result findOne(@PathVariable Integer id) {
+        return Result.success(${table.entityPath}Service.list());
                 }
 
         @GetMapping("/page")
-        public Page<${entity}> findPage(@RequestParam Integer pageNum,
+        public Result findPage(@RequestParam Integer pageNum,
         @RequestParam Integer pageSize) {
-                return ${table.entityPath}Service.page(new Page<>(pageNum, pageSize));
+        QueryWrapper<${table.entityPath}> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
+        return Result.success(${table.entityPath}Service.page(new Page<>(pageNum,pageSize),queryWrapper));
                 }
         @PostMapping("/deletes")
-        public boolean deleteEmps(@RequestBody List<Integer> Ids){
-                return ${table.entityPath}Service.removeByIds(Ids);
+        public Result deleteEmps(@RequestBody List<Integer> Ids){
+                return Result.success(${table.entityPath}Service.removeByIds(Ids));
                 }
 
 

@@ -1,10 +1,14 @@
 package com.example.demo.bean;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -47,6 +51,9 @@ public class Emp implements Serializable {
     private String password;
 
     private String avatarUrl;
+
+    @TableField("create_time")
+    private Date createTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
