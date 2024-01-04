@@ -55,6 +55,8 @@ public class Emp implements Serializable {
     @TableField("create_time")
     private Date createTime;
 
+    private String role;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
