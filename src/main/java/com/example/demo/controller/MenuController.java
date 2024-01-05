@@ -48,17 +48,9 @@ public class MenuController {
              }
 
         @GetMapping
-        public Result findAll(@RequestParam String name) {
-                QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-                queryWrapper.like("name",name);
-                List<Menu> list = menuService.list(queryWrapper);
-                List<Menu> parentMenu = list.stream().filter(menu -> menu.getPid() == null).collect(Collectors.toList());
-                for (Menu menu : parentMenu) {
-                        menu.setChildren(list.stream().filter(m-> menu.getId().equals(m.getPid())).collect(Collectors.toList()));
-                }
-
-                return Result.success(parentMenu);
-                }
+        public Result findAll(@RequestParam String name){
+                return Result.success(menuService.getMenus(name));
+        }
 
         @GetMapping("/{id}")
         public Result findOne(@PathVariable Integer id) {
