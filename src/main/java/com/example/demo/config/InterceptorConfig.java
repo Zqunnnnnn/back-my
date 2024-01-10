@@ -11,7 +11,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/emp/login","/emp/register","/**/export","/**/import","/file/**","/echarts/**");    // 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
+                .excludePathPatterns("/**");    // 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
 
         //注册TestInterceptor拦截器
 //        InterceptorRegistration registration = registry.addInterceptor(jwtInterceptor());

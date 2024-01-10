@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.Dict;
 import com.example.demo.mapper.DictMapper;
+import com.example.demo.mapper.MenuMapper;
 import com.example.demo.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,5 +78,7 @@ public class MenuController {
                 List<Dict> icons = dictMapper.selectList(wrapper);
                 return Result.success(icons);
         }
+
+
 
 }

@@ -2,6 +2,9 @@ package com.example.demo.mapper;
 
 import com.example.demo.bean.SysRoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
 * @author Zqunnnnnn
@@ -11,6 +14,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
+    @Select("SELECT menu_id FROM `sys_role_menu` where role_id = #{roleID} ")
+    List<Integer> selectMenusByRoleId(Integer roleID);
 }
 
 

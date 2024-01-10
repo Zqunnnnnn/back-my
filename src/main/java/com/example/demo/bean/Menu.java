@@ -38,6 +38,8 @@ public class Menu implements Serializable {
 
     private String path;
 
+    private String pagePath;
+
     private String icon;
 
     private String description;

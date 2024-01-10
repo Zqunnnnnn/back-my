@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.bean.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RoleMapper extends BaseMapper<Role> {
 
+    @Select("select id from sys_role where flag=#{role}")
+    Integer selectByFlag(String role);
 }
