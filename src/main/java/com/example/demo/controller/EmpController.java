@@ -109,7 +109,7 @@ public class EmpController {
             queryWrapper
                     .eq("emp_age",empAge)
                     .like("emp_name",empName)
-                    .like("emp_sex",sexString);
+                    .like("emp_sex",empSex);
         }
         else {
             queryWrapper
