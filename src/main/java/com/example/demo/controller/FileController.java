@@ -68,6 +68,8 @@ public class FileController {
             saveFile.setSize(fileSize/1024);
             saveFile.setUrl(url);
             saveFile.setMd5(md5);
+            saveFile.setIsDelete(false);
+            saveFile.setEnable(true);
             fileMapper.insert(saveFile);
         }
         return url;

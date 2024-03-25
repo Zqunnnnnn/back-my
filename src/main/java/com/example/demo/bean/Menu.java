@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
  * @since 2023-12-28
  */
 @Data
-@TableName("sys_menu")
+@TableName("menu")
 @ToString
 @ApiModel(value = "Menu对象", description = "")
 public class Menu implements Serializable {

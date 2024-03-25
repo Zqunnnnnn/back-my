@@ -17,7 +17,6 @@ public class SysRoleMenu implements Serializable {
     /**
      * 
      */
-    @TableId
     private Integer roleId;
 
     /**

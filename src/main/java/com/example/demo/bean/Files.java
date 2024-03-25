@@ -11,7 +11,7 @@ import lombok.Data;
  *
  * @TableName file
  */
-@TableName(value ="file")
+@TableName(value ="files")
 @Data
 public class Files implements Serializable {
     /**

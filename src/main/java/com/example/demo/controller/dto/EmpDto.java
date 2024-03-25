@@ -22,5 +22,4 @@ public class EmpDto {
     private String avatarUrl;
     private String role;
     private List<Menu> menuList;
-
 }

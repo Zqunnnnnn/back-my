@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  */
 @Getter
 @Setter
-@TableName("sys_role")
+@TableName("role")
 @ApiModel(value = "Role对象", description = "")
 @CrossOrigin
 public class Role implements Serializable {

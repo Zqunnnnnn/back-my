@@ -29,6 +29,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
             queryWrapper.like("name",name);
         }
         List<Menu> list = list(queryWrapper);
+        //找到一级菜单pid==null
         List<Menu> parentMenus = list.stream().filter(menu -> menu.getPid() == null).collect(Collectors.toList());
         for (Menu menu : parentMenus) {
             menu.setChildren(list.stream().filter(m-> menu.getId().equals(m.getPid())).collect(Collectors.toList()));

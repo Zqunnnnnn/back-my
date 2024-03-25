@@ -18,7 +18,7 @@ public class Generators {
                     builder.author("Zqu") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
                             .fileOverride() // 覆盖已生成文件
-                            .outputDir("C:\\Users\\Zqunnnnnn\\Desktop\\demo2\\src\\main\\java\\"); // 指定输出目录
+                            .outputDir("D:\\codes\\back-my\\src\\main\\java\\"); // 指定输出目录
                 })
                 .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
                     int typeCode = metaInfo.getJdbcType().TYPE_CODE;
@@ -33,13 +33,13 @@ public class Generators {
                     builder.parent("com.example.demo") // 设置父包名
                             .moduleName(null) // 设置父包模块名
                             .entity("bean")
-                            .pathInfo(Collections.singletonMap(OutputFile.xml, "C:\\Users\\Zqunnnnnn\\Desktop\\study\\java\\demo\\src\\main\\resources\\mapper\\")); // 设置mapperXml生成路径
+                            .pathInfo(Collections.singletonMap(OutputFile.xml, "D:\\codes\\back-my\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
                     builder.entityBuilder().enableLombok();
                     builder.controllerBuilder().enableHyphenStyle()//驼峰
                                     .enableRestStyle();//RestController
-                    builder.addInclude("sys_fix") // 设置需要生成的表名
+                    builder.addInclude("room") // 设置需要生成的表名
                             .addTablePrefix("t_", "sys_"); // 设置过滤表前缀
                 })
 //                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板

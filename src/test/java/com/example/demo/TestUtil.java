@@ -1,10 +1,7 @@
 package com.example.demo;
 
 import cn.hutool.json.JSON;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.example.demo.bean.Emp;
-import com.example.demo.bean.Wife;
 import org.junit.jupiter.api.Test;
 
 public class TestUtil {

@@ -22,7 +22,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-  @TableName("sys_fix")
+  @TableName("fix")
 @ApiModel(value = "Fix对象", description = "")
 public class Fix implements Serializable {
 
