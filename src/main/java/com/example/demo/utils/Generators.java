@@ -39,7 +39,7 @@ public class Generators {
                     builder.entityBuilder().enableLombok();
                     builder.controllerBuilder().enableHyphenStyle()//驼峰
                                     .enableRestStyle();//RestController
-                    builder.addInclude("room") // 设置需要生成的表名
+                    builder.addInclude("notice") // 设置需要生成的表名
                             .addTablePrefix("t_", "sys_"); // 设置过滤表前缀
                 })
 //                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板

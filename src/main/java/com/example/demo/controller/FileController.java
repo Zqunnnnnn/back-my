@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.Files;
-import com.example.demo.mapper.FileMapper;
 import com.example.demo.service.impl.FileServiceImpl;
 import com.example.demo.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,7 @@ import java.util.List;
 @CrossOrigin
 public class FileController {
 
-    @Autowired
-    private FileMapper fileMapper;
+
     @Autowired
     private FileServiceImpl fileService;
     @Value("${files.uploads.path}")
@@ -70,7 +68,6 @@ public class FileController {
             saveFile.setMd5(md5);
             saveFile.setIsDelete(false);
             saveFile.setEnable(true);
-            fileMapper.insert(saveFile);
         }
         return url;
     }
@@ -125,7 +122,12 @@ public class FileController {
     private Files isSame(String md5){
         QueryWrapper<Files> wrapper = new QueryWrapper<>();
         wrapper.eq("md5",md5);
-        List<Files> filesList = fileMapper.selectList(wrapper);
+        List<Files> filesList = fileService.list(wrapper);
+//        List<Files> filesList = filesMapper.selectList(wrapper);
         return filesList.size()==0?null:filesList.get(0);
+    }
+    @GetMapping
+    public Result findAll() {
+        return Result.success(fileService.list());
     }
 }
