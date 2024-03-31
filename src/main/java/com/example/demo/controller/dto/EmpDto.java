@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Data
 public class EmpDto {
+    private Integer empId;
     private String empName;//账号
     private String password;//密码
     private String empSex;

@@ -4,12 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import com.example.demo.utils.Result;
-import com.example.demo.service.INoticeService;
-import com.example.demo.bean.Notice;
+import com.example.demo.service.IOrdersService;
+import com.example.demo.bean.Orders;
 
 
 import org.springframework.web.bind.annotation.RestController;
@@ -20,48 +18,47 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author Zqu
- * @since 2024-03-27
+ * @since 2024-03-31
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/notice")
-public class NoticeController {
+@RequestMapping("/orders")
+public class OrdersController {
         @Resource
-        private INoticeService noticeService;
+        private IOrdersService ordersService;
 
         @PostMapping
-        public Result save(@RequestBody Notice notice) {
-                notice.setPublishDate(LocalDateTime.now());
-                noticeService.saveOrUpdate(notice);
+        public Result save(@RequestBody Orders orders) {
+                ordersService.saveOrUpdate(orders);
                 return Result.success();
         }
 
         @DeleteMapping("/{id}")
         public Result delete(@PathVariable Integer id) {
-                noticeService.removeById(id);
+                ordersService.removeById(id);
                 return Result.success();
              }
 
         @GetMapping
         public Result findAll() {
-                return Result.success(noticeService.list());
+                return Result.success(ordersService.list());
                 }
 
         @GetMapping("/{id}")
         public Result findOne(@PathVariable Integer id) {
-        return Result.success(noticeService.list());
+        return Result.success(ordersService.list());
                 }
 
         @GetMapping("/page")
         public Result findPage(@RequestParam Integer pageNum,
-        @RequestParam Integer pageSize,@RequestParam String title) {
-        QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("title",title);
-        return Result.success(noticeService.page(new Page<>(pageNum,pageSize),queryWrapper));
+        @RequestParam Integer pageSize) {
+        QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
+        return Result.success(ordersService.page(new Page<>(pageNum,pageSize),queryWrapper));
                 }
         @PostMapping("/deletes")
         public Result deleteEmps(@RequestBody List<Integer> Ids){
-                return Result.success(noticeService.removeByIds(Ids));
+                return Result.success(ordersService.removeByIds(Ids));
                 }
 
 

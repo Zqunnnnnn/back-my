@@ -47,7 +47,6 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp>
             List<Integer> menuIds = sysRoleMenuMapper.selectMenusByRoleId(roleID);
             //获取所有menu
             List<Menu> menus = menuService.getMenus("");
-            System.out.println("--------------------------------");
             System.out.println(menus);
             //筛选之后的menu的集合
             List<Menu> roleMenus = new ArrayList<>();
