@@ -28,7 +28,7 @@ public class Room implements Serializable {
 
     private String name;
 
-    private Object price;
+    private Double price;
 
     private Boolean status;
 

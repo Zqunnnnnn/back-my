@@ -124,7 +124,7 @@ public class EmpController {
     public Result exportData(HttpServletResponse response) throws IOException {
         //获取所有信息
         List<Emp> list = empService.list();
-        ExcelWriter writer = ExcelUtil.getWriter("C:\\Users\\Zqunnnnnn\\Desktop\\study\\java\\demo\\src\\main\\resources\\templates\\export"+"/用户信息.xlsx");
+        ExcelWriter writer = ExcelUtil.getWriter("D:\\codes\\back-my\\src\\main\\resources\\templates\\export"+"/用户信息.xlsx");
 //        writer.addHeaderAlias("empId","员工编号");
 //        writer.addHeaderAlias("empName","员工姓名");
 //        writer.addHeaderAlias("empSex","性别");
