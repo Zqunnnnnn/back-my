@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.config.AutoLog;
 import com.example.demo.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +33,14 @@ public class RoomController {
         private FileService fileService;
 
         @PostMapping
+        @AutoLog("更新房间信息")
         public Result save(@RequestBody Room room) {
                 roomService.saveOrUpdate(room);
                 return Result.success();
         }
 
         @DeleteMapping("/{id}")
+        @AutoLog("删除单个房间信息")
         public Result delete(@PathVariable Integer id) {
                 roomService.removeById(id);
                 return Result.success();
@@ -54,12 +57,14 @@ public class RoomController {
                 }
 
         @GetMapping("/page")
+        @AutoLog("查看房间信息")
         public Result findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String name) {
         QueryWrapper<Room> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("name",name);
         return Result.success(roomService.page(new Page<>(pageNum,pageSize),queryWrapper));
                 }
         @PostMapping("/deletes")
+        @AutoLog("删除多个房间信息")
         public Result deleteEmps(@RequestBody List<Integer> Ids){
                 return Result.success(roomService.removeByIds(Ids));
                 }

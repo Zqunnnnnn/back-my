@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.Room;
+import com.example.demo.config.AutoLog;
 import com.example.demo.service.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public class OrdersController {
         private IRoomService roomService;
 
         @PostMapping
+        @AutoLog("更新订单信息")
         public Result save(@RequestBody Orders orders) {
                 Integer roomId = orders.getRoomId();
                 for (Room room : roomService.list()) {
@@ -63,6 +65,7 @@ public class OrdersController {
         }
 
         @DeleteMapping("/{id}")
+        @AutoLog("删除单个订单信息")
         public Result delete(@PathVariable Integer id) {
                 Orders order = ordersService.getById(id);
                 Integer roomId = order.getRoomId();
@@ -84,6 +87,7 @@ public class OrdersController {
                 }
 
         @GetMapping("/page")
+        @AutoLog("查看订单信息")
         public Result findPage(@RequestParam Integer pageNum,
         @RequestParam Integer pageSize,@RequestParam (required = false) Integer id) {
                 QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
@@ -96,6 +100,7 @@ public class OrdersController {
                 return Result.success(ordersService.page(new Page<>(pageNum,pageSize),queryWrapper));
                 }
         @PostMapping("/deletes")
+        @AutoLog("删除多个订单信息")
         public Result deleteEmps(@RequestBody List<Integer> Ids){
                 return Result.success(ordersService.removeByIds(Ids));
                 }

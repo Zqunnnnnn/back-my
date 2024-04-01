@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.SysRoleMenu;
+import com.example.demo.config.AutoLog;
 import com.example.demo.mapper.SysRoleMenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +36,14 @@ public class RoleController {
         private SysRoleMenuMapper sysRoleMenuMapper;
 
         @PostMapping
+        @AutoLog("更新角色信息")
         public Result save(@RequestBody Role role) {
                 roleService.saveOrUpdate(role);
                 return Result.success();
         }
 
         @DeleteMapping("/{id}")
+        @AutoLog("删除单个角色信息")
         public Result delete(@PathVariable Integer id) {
                 roleService.removeById(id);
                 return Result.success();
@@ -57,22 +60,26 @@ public class RoleController {
                 }
 
         @GetMapping("/page")
+        @AutoLog("查看角色信息")
         public Result findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String name) {
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("name",name);
         return Result.success(roleService.page(new Page<>(pageNum,pageSize),queryWrapper));
                 }
         @PostMapping("/deletes")
+        @AutoLog("删除多个角色信息")
         public Result deleteEmps(@RequestBody List<Integer> Ids){
                 return Result.success(roleService.removeByIds(Ids));
                 }
 
         @PostMapping("/roleMenu/{roleId}")
+        @AutoLog("分配角色所属菜单")
         public Result setRoleMenu(@PathVariable("roleId") Integer roleId,@RequestBody List<Integer> menuIds) {
                 roleService.setRoleMenu(roleId,menuIds);
                 return Result.success();
         }
         @GetMapping("/getMenu/{roleId}")
+        @AutoLog("查看角色拥有菜单信息")
         public Result findMenuByRoleId(@PathVariable("roleId") Integer roleId) {
                 QueryWrapper<SysRoleMenu> wrapper = new QueryWrapper<>();
                 wrapper.eq("role_id", roleId);

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.Files;
+import com.example.demo.config.AutoLog;
 import com.example.demo.service.impl.FileServiceImpl;
 import com.example.demo.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class FileController {
      * 返回最后存的地址
      */
     @PostMapping("/upload")
+    @AutoLog("上传文件")
     public String uploadFile(@RequestParam MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String type = FileUtil.extName(originalFilename);
@@ -72,6 +74,7 @@ public class FileController {
         return url;
     }
     @GetMapping("/download/{fileUUid}")
+    @AutoLog("下载文件")
     public void downloadFile(@PathVariable String fileUUid, HttpServletResponse response) throws IOException{
         //根据传过来的的唯一标识获取文件
         File uploadFile = new File(fileUploadPath + fileUUid);
@@ -90,6 +93,7 @@ public class FileController {
     }
 
     @GetMapping("/page")
+    @AutoLog("查看文件信息")
     public Result getPage(@RequestParam Integer pageNum,
                           @RequestParam Integer pageSize,
                           @RequestParam(required = false) String name
@@ -102,6 +106,7 @@ public class FileController {
         return Result.success(fileService.page(page,queryWrapper));
     }
     @DeleteMapping("/deleteEmp/{id}")
+    @AutoLog("删除单个文件信息")
     public Result deleteFile(@PathVariable("id") Integer id){
         Files file = fileService.getById(id);
         file.setIsDelete(true);
@@ -109,6 +114,7 @@ public class FileController {
     }
 
     @PostMapping("/deletes")
+    @AutoLog("删除多个文件信息")
     public Result deleteFiles(@RequestBody List<Integer> Ids){
         QueryWrapper<Files> wrapper = new QueryWrapper<>();
         wrapper.in("id",Ids);

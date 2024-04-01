@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.Dict;
+import com.example.demo.config.AutoLog;
 import com.example.demo.mapper.DictMapper;
 import com.example.demo.mapper.MenuMapper;
 import com.example.demo.utils.Constants;
@@ -38,12 +39,14 @@ public class MenuController {
         private DictMapper dictMapper;
 
         @PostMapping
+        @AutoLog("更新维修信息")
         public Result save(@RequestBody Menu menu) {
                 menuService.saveOrUpdate(menu);
                 return Result.success();
         }
 
         @DeleteMapping("/{id}")
+        @AutoLog("删除单个菜单信息")
         public Result delete(@PathVariable Integer id) {
                 menuService.removeById(id);
                 return Result.success();
@@ -60,12 +63,14 @@ public class MenuController {
                 }
 
         @GetMapping("/page")
+        @AutoLog("查看菜单信息")
         public Result findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String name) {
         QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("name",name);
         return Result.success(menuService.page(new Page<>(pageNum,pageSize),queryWrapper));
                 }
         @PostMapping("/deletes")
+        @AutoLog("删除多个菜单信息")
         public Result deleteEmps(@RequestBody List<Integer> Ids){
                 return Result.success(menuService.removeByIds(Ids));
                 }

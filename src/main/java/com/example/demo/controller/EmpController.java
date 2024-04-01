@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.bean.Emp;
+import com.example.demo.config.AutoLog;
 import com.example.demo.controller.dto.EmpDto;
 import com.example.demo.mapper.EmpMapper;
 import com.example.demo.service.impl.EmpServiceImpl;
@@ -35,10 +36,12 @@ public class EmpController {
     private EmpServiceImpl empService;
 
     @PostMapping("/deletes")
+    @AutoLog("删除多个个用户信息")
     public Result deleteEmps(@RequestBody List<Integer> empIds){
         return Result.success(empService.removeByIds(empIds));
     }
     @PostMapping("/updateOrAddEmp")
+    @AutoLog("更新用户表")
     public Result updateOrAddEmp(@RequestBody Emp emp){
         QueryWrapper<Emp> wrapper = new QueryWrapper<>();
         wrapper.eq("emp_name", emp.getEmpName())
@@ -68,6 +71,7 @@ public class EmpController {
         return Result.success(empService.getOne(wrapper));
     }
     @DeleteMapping("/deleteEmp/{id}")
+    @AutoLog("删除单个用户信息")
     public Result deleteEmp(@PathVariable("id") Integer empId){
         return Result.success(empService.removeById(empId));
     }
@@ -91,6 +95,7 @@ public class EmpController {
 //        return map;
 //    }
     @GetMapping("/page")
+    @AutoLog("查看用户信息")
     public Result getPage(@RequestParam Integer pageNum,
                               @RequestParam Integer pageSize,
                               @RequestParam(required = false) String empName,
@@ -121,6 +126,7 @@ public class EmpController {
     }
 
     @GetMapping("/export")
+    @AutoLog("导出用户信息")
     public Result exportData(HttpServletResponse response) throws IOException {
         //获取所有信息
         List<Emp> list = empService.list();
@@ -143,6 +149,7 @@ public class EmpController {
         return Result.success("true");
     }
     @PostMapping("/import")
+    @AutoLog("导入用户信息")
     public Result importData(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         ExcelReader reader = ExcelUtil.getReader(inputStream);
@@ -152,6 +159,7 @@ public class EmpController {
     }
 
     @PostMapping("/login")
+    @AutoLog("用户登录")
     public Result login(@RequestBody EmpDto empDto){
         String empName = empDto.getEmpName();
         String password = empDto.getPassword();
@@ -162,6 +170,7 @@ public class EmpController {
     }
 
     @PostMapping("/register")
+    @AutoLog("用户注册")
     public Result register(@RequestBody EmpDto empDto){
         String empName = empDto.getEmpName();
         String password = empDto.getPassword();
