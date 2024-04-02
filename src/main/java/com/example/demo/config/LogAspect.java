@@ -6,6 +6,7 @@ import com.example.demo.bean.Emp;
 import com.example.demo.bean.Log;
 import com.example.demo.exception.LoginException;
 import com.example.demo.service.ILogService;
+import com.example.demo.utils.GetEmp;
 import com.example.demo.utils.Result;
 import com.example.demo.utils.TokenUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -34,19 +35,25 @@ public class LogAspect {
         //获取操作的时间
         String time = DateUtil.now();
         //获取当前操作人id
-        String empId = TokenUtils.getCurrentEmp();
-        if(StrUtil.isBlank(empId)){
-            throw new LoginException("400","无法获取用户编号");
+        String empName="";
+        Emp emp = GetEmp.getCurrentEmp();
+        if(ObjectUtil.isNotNull(emp)){
+            empName=emp.getEmpName();
         }
-        int empId2 = Integer.parseInt(empId);
         //获取当前操作人ip
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String ip = request.getRemoteAddr();
         //执行具体接口
         Result proceed = (Result) joinPoint.proceed();
+        Object data = proceed.getData();
+        //有些操作无法获取emp，需要通过Result获取emp
+        if(data instanceof Emp){
+            Emp emp1 = (Emp) data;
+            empName = emp1.getEmpName();
+        }
         //往日志表里去写日志记录
         Log log = new Log();
-        log.setEmpId(empId2);
+        log.setEmpName(empName);
         log.setIp(ip);
         log.setTime(time);
         log.setName(name);

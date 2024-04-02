@@ -30,7 +30,7 @@ public class Log implements Serializable {
 
     private String time;
 
-    private Integer empId;
+    private String empName;
 
     private String ip;
 }

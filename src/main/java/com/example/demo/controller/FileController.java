@@ -39,7 +39,6 @@ public class FileController {
      * 返回最后存的地址
      */
     @PostMapping("/upload")
-    @AutoLog("上传文件")
     public String uploadFile(@RequestParam MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String type = FileUtil.extName(originalFilename);
@@ -70,11 +69,11 @@ public class FileController {
             saveFile.setMd5(md5);
             saveFile.setIsDelete(false);
             saveFile.setEnable(true);
+            fileService.saveOrUpdate(saveFile);
         }
         return url;
     }
     @GetMapping("/download/{fileUUid}")
-    @AutoLog("下载文件")
     public void downloadFile(@PathVariable String fileUUid, HttpServletResponse response) throws IOException{
         //根据传过来的的唯一标识获取文件
         File uploadFile = new File(fileUploadPath + fileUUid);
@@ -88,12 +87,12 @@ public class FileController {
         os.close();
     }
     @PostMapping("/update")
+    @AutoLog("操作文件")
     public Result updateFile(@RequestBody Files file){
         return Result.success(fileService.saveOrUpdate(file));
     }
 
     @GetMapping("/page")
-    @AutoLog("查看文件信息")
     public Result getPage(@RequestParam Integer pageNum,
                           @RequestParam Integer pageSize,
                           @RequestParam(required = false) String name
@@ -106,7 +105,6 @@ public class FileController {
         return Result.success(fileService.page(page,queryWrapper));
     }
     @DeleteMapping("/deleteEmp/{id}")
-    @AutoLog("删除单个文件信息")
     public Result deleteFile(@PathVariable("id") Integer id){
         Files file = fileService.getById(id);
         file.setIsDelete(true);
@@ -114,7 +112,6 @@ public class FileController {
     }
 
     @PostMapping("/deletes")
-    @AutoLog("删除多个文件信息")
     public Result deleteFiles(@RequestBody List<Integer> Ids){
         QueryWrapper<Files> wrapper = new QueryWrapper<>();
         wrapper.in("id",Ids);

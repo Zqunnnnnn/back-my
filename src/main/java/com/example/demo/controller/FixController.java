@@ -33,14 +33,14 @@ public class FixController {
         private IFixService fixService;
 
         @PostMapping
-        @AutoLog("更新维修信息")
+        @AutoLog("操作维修信息")
         public Result save(@RequestBody Fix fix) {
                 fixService.saveOrUpdate(fix);
                 return Result.success();
         }
 
         @DeleteMapping("/{id}")
-        @AutoLog("删除单个维修信息")
+        @AutoLog("删除维修信息")
         public Result delete(@PathVariable Integer id) {
                 fixService.removeById(id);
                 return Result.success();
@@ -57,7 +57,6 @@ public class FixController {
                 }
 
         @GetMapping("/page")
-        @AutoLog("查看维修信息")
         public Result findPage(@RequestParam Integer pageNum,
         @RequestParam Integer pageSize,@RequestParam (required = false) Integer fixId) {
         QueryWrapper<Fix> queryWrapper = new QueryWrapper<>();

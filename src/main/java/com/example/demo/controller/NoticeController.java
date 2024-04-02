@@ -31,7 +31,7 @@ public class NoticeController {
         private INoticeService noticeService;
 
         @PostMapping
-        @AutoLog("更新公告信息")
+        @AutoLog("操作公告信息")
         public Result save(@RequestBody Notice notice) {
                 notice.setPublishDate(LocalDateTime.now());
                 noticeService.saveOrUpdate(notice);
@@ -39,7 +39,7 @@ public class NoticeController {
         }
 
         @DeleteMapping("/{id}")
-        @AutoLog("删除单个公告信息")
+        @AutoLog("删除公告信息")
         public Result delete(@PathVariable Integer id) {
                 noticeService.removeById(id);
                 return Result.success();
@@ -56,7 +56,6 @@ public class NoticeController {
                 }
 
         @GetMapping("/page")
-        @AutoLog("查看公告信息")
         public Result findPage(@RequestParam Integer pageNum,
         @RequestParam Integer pageSize,@RequestParam String title) {
         QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
@@ -64,7 +63,7 @@ public class NoticeController {
         return Result.success(noticeService.page(new Page<>(pageNum,pageSize),queryWrapper));
                 }
         @PostMapping("/deletes")
-        @AutoLog("删除单个公告信息")
+        @AutoLog("删除多个公告信息")
         public Result deleteEmps(@RequestBody List<Integer> Ids){
                 return Result.success(noticeService.removeByIds(Ids));
                 }

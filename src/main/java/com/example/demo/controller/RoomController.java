@@ -40,7 +40,7 @@ public class RoomController {
         }
 
         @DeleteMapping("/{id}")
-        @AutoLog("删除单个房间信息")
+        @AutoLog("删除房间信息")
         public Result delete(@PathVariable Integer id) {
                 roomService.removeById(id);
                 return Result.success();
@@ -57,7 +57,6 @@ public class RoomController {
                 }
 
         @GetMapping("/page")
-        @AutoLog("查看房间信息")
         public Result findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize,@RequestParam String name) {
         QueryWrapper<Room> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("name",name);

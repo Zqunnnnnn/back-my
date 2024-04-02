@@ -36,19 +36,19 @@ public class EmpController {
     private EmpServiceImpl empService;
 
     @PostMapping("/deletes")
-    @AutoLog("删除多个个用户信息")
+    @AutoLog("删除多个用户信息")
     public Result deleteEmps(@RequestBody List<Integer> empIds){
         return Result.success(empService.removeByIds(empIds));
     }
     @PostMapping("/updateOrAddEmp")
-    @AutoLog("更新用户表")
+    @AutoLog("更新用户信息")
     public Result updateOrAddEmp(@RequestBody Emp emp){
         QueryWrapper<Emp> wrapper = new QueryWrapper<>();
         wrapper.eq("emp_name", emp.getEmpName())
                 .ne("emp_id", emp.getEmpId());
         Emp one = empService.getOne(wrapper);
-        if(emp.getDeptId()==null||emp.getEmpAge()==null||emp.getEmpSex()==null||emp.getEmpName()==null){
-            return Result.error("lack message");
+        if(emp.getEmpAge()==null||emp.getEmpSex()==null||emp.getEmpName()==null){
+            return Result.error("400","lack message");
         } else if (emp.getPassword()==null) {
             emp.setPassword("123456");
         } else if (one!=null){//empName不能重复
@@ -71,7 +71,7 @@ public class EmpController {
         return Result.success(empService.getOne(wrapper));
     }
     @DeleteMapping("/deleteEmp/{id}")
-    @AutoLog("删除单个用户信息")
+    @AutoLog("删除用户信息")
     public Result deleteEmp(@PathVariable("id") Integer empId){
         return Result.success(empService.removeById(empId));
     }
@@ -149,7 +149,6 @@ public class EmpController {
         return Result.success("true");
     }
     @PostMapping("/import")
-    @AutoLog("导入用户信息")
     public Result importData(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         ExcelReader reader = ExcelUtil.getReader(inputStream);
@@ -158,8 +157,8 @@ public class EmpController {
         return Result.success("true");
     }
 
+    @AutoLog("登陆系统")
     @PostMapping("/login")
-    @AutoLog("用户登录")
     public Result login(@RequestBody EmpDto empDto){
         String empName = empDto.getEmpName();
         String password = empDto.getPassword();
@@ -170,7 +169,6 @@ public class EmpController {
     }
 
     @PostMapping("/register")
-    @AutoLog("用户注册")
     public Result register(@RequestBody EmpDto empDto){
         String empName = empDto.getEmpName();
         String password = empDto.getPassword();

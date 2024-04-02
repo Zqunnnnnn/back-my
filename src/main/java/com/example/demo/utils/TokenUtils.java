@@ -20,26 +20,6 @@ public class TokenUtils {
                 .withExpiresAt(DateUtil.offsetHour(new Date(),1)) //一小时后token过期
                 .sign(Algorithm.HMAC256(password)); // 以 password 作为 token 的密钥
     }
-    /**
-     * 获取当前登录者的信息
-     */
-    public static String getCurrentEmp(){
-        String token = null;
-        try {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            token = request.getHeader("token");
-            if(StrUtil.isBlank(token)){
-                token = request.getParameter("token");
-            }
-            if(StrUtil.isBlank(token)){
-                return null;
-            }
-            //解析token，获取用户id
-            String empId = JWT.decode(token).getAudience().get(0);
-            return empId;
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
+
     }
-}
+
