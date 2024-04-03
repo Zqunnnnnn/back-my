@@ -1,10 +1,14 @@
 package com.example.demo.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.demo.bean.Emp;
 import com.example.demo.bean.Room;
 import com.example.demo.config.AutoLog;
+import com.example.demo.exception.LoginException;
 import com.example.demo.service.IRoomService;
+import com.example.demo.utils.GetEmp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -69,6 +73,9 @@ public class OrdersController {
         @AutoLog("删除订单信息")
         public Result delete(@PathVariable Integer id) {
                 Orders order = ordersService.getById(id);
+                if(ObjectUtil.isNull(order)){
+                        throw new LoginException("400","订单取消成功");
+                }
                 Integer roomId = order.getRoomId();
                 Room room = roomService.getById(roomId);
                 room.setStatus(true);
@@ -125,7 +132,6 @@ public class OrdersController {
          * 创建定时任务，当到达结束日期之后删除所属订单
          */
         @Scheduled(fixedRate = 60000)
-        @AutoLog("到期删除订单信息")
         public void scheduleOrderClean(){
                 LocalDateTime now = LocalDateTime.now();
                 List<Orders> overOrders = ordersService.getOverOrders(now);
@@ -133,4 +139,21 @@ public class OrdersController {
                         ordersService.deleteAll(overOrders);
                 }
         }
+        @GetMapping("/getOrders")
+        public Result getOrders(){
+                Emp emp = GetEmp.getCurrentEmp();
+                QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("emp_id",emp.getEmpId());
+
+                return Result.success(ordersService.list(queryWrapper));
+        }
+//        @GetMapping("/getOrders")
+//        public Result getOrders(@RequestParam String empId){
+//                System.out.println(empId+"++++++++++++++++++++++++++++++");
+//                QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
+//                queryWrapper.eq("emp_id",empId);
+//
+//                return Result.success(ordersService.list(queryWrapper));
+//        }
+
 }

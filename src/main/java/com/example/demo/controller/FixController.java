@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.example.demo.utils.Result;
 import com.example.demo.service.IFixService;
@@ -35,6 +36,8 @@ public class FixController {
         @PostMapping
         @AutoLog("操作维修信息")
         public Result save(@RequestBody Fix fix) {
+                fix.setDate(LocalDateTime.now());
+                fix.setStatus(false);
                 fixService.saveOrUpdate(fix);
                 return Result.success();
         }
